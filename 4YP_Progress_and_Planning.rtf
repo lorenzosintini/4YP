@@ -1,0 +1,36 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671
+{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica-BoldOblique;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28300\viewh15180\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 \ul \ulc0 4YP PROGRESS AND PLANNING\
+\
+
+\f1\i \ulnone Friday 18th October Meeting
+\f0\i0 \ul \
+\ulnone Things to do next:
+\f2\b0 \
+i) Look at the latent space distribution when training the VAE with different classes. \
+    - Do different classes lie in different regions? \
+    - Are similar number closer to each other (e.g. 1 and 7, 3 and 8\'85)? \
+    - If we \'93zoom in\'94 into a single class, is it possible to notice further classification or differences between different ways of writing the same number?\
+ii) If the VAE is trained with a certain class, how well does it reconstruct that same class and other classes (which would be novel)? \
+    - If it still reconstruct untrained pictures well (e.g. pictures of 1s seem to be easily reconstructible due to their simple shape), where would that picture lie in the latent space after being decoded? \
+    - Is it an outlier or far off from \'93typical\'94 distribution of other pictures?\
+iii) Compare a single VAE trained with all the classes vs multiple VAEs trained separately for each class\
+    - Train 10 VAEs for each number, then input a test picture to each of them and find their loss when being reconstructed. The one with the smallest loss is the class it belongs to.\
+    - Train 1 CVAE (conditional variational auto encoder) with all the numbers. Given a test picture find the reconstruction loss for each of the conditional cases (the 10 possible classes). The one with the smallest loss is the class it belongs to.\
+    - Train 1 VAE with all the numbers. Rather than reconstructing a test image, determine which class it belongs to by looking at the latent vector constructed by the decoder (ideally each class should lie in a different latent space region)\
+iv) Train the VAE (or CVAE) with different amounts of data for different classes. \
+    - How much worse is the reconstruction?\
+    - Does this affect the categorisation performance (less train data for one category = larger test reconstruction error for that category\'97> might not think that it\'92s the category it belongs to, since better trained categories give smaller errors)\
+v) Make the code less dependent of the specific dataset used for. Try to make the same code run for for MNIST-numbers and MNIST-fashion.\
+vi) Try and get remote machine access in ORI \
+vii) Share the GitHub repository\
+
+\f0\b Next meeting: \
+
+\f2\b0 Friday 8th November}
