@@ -1,9 +1,9 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1671
 {\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica-BoldOblique;\f2\fswiss\fcharset0 Helvetica;
-}
+\f3\fswiss\fcharset0 Helvetica-Oblique;}
 {\colortbl;\red255\green255\blue255;}
 {\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww28300\viewh15180\viewkind0
+\paperw11900\paperh16840\margl1440\margr1440\vieww28300\viewh14980\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\b\fs24 \cf0 \ul \ulc0 4YP PROGRESS AND PLANNING\
@@ -13,24 +13,73 @@
 \f0\i0 \ul \
 \ulnone Things to do next:
 \f2\b0 \
-i) Look at the latent space distribution when training the VAE with different classes. \
-    - Do different classes lie in different regions? \
-    - Are similar number closer to each other (e.g. 1 and 7, 3 and 8\'85)? \
-    - If we \'93zoom in\'94 into a single class, is it possible to notice further classification or differences between different ways of writing the same number?\
-ii) If the VAE is trained with a certain class, how well does it reconstruct that same class and other classes (which would be novel)? \
-    - If it still reconstruct untrained pictures well (e.g. pictures of 1s seem to be easily reconstructible due to their simple shape), where would that picture lie in the latent space after being decoded? \
-    - Is it an outlier or far off from \'93typical\'94 distribution of other pictures?\
-iii) Compare a single VAE trained with all the classes vs multiple VAEs trained separately for each class\
+1) Look at the latent space distribution when training the VAE with different classes. \
+    a) Do different classes lie in different regions? \
+    b) Are similar number closer to each other (e.g. 1 and 7, 3 and 8\'85)? \
+    c) If we \'93zoom in\'94 into a single class, is it possible to notice further classification or differences between different ways of writing the same number?\
+2) Train the VAE only with certain classes \
+    a) How well does it reconstruct that same class and other classes (which would be novel)? \
+    b) If it still reconstruct untrained pictures well (e.g. pictures of 1s seem to be easily reconstructible due to their simple shape), where would that picture lie in the latent space after being decoded? \
+    c) Is it an outlier or far off from \'93typical\'94 distribution of other pictures?\
+3) Compare a single VAE trained with all the classes vs multiple VAEs trained separately for each class\
     - Train 10 VAEs for each number, then input a test picture to each of them and find their loss when being reconstructed. The one with the smallest loss is the class it belongs to.\
     - Train 1 CVAE (conditional variational auto encoder) with all the numbers. Given a test picture find the reconstruction loss for each of the conditional cases (the 10 possible classes). The one with the smallest loss is the class it belongs to.\
     - Train 1 VAE with all the numbers. Rather than reconstructing a test image, determine which class it belongs to by looking at the latent vector constructed by the decoder (ideally each class should lie in a different latent space region)\
-iv) Train the VAE (or CVAE) with different amounts of data for different classes. \
+4) Train the VAE (or CVAE) with different amounts of data for different classes. \
     - How much worse is the reconstruction?\
     - Does this affect the categorisation performance (less train data for one category = larger test reconstruction error for that category\'97> might not think that it\'92s the category it belongs to, since better trained categories give smaller errors)\
-v) Make the code less dependent of the specific dataset used for. Try to make the same code run for for MNIST-numbers and MNIST-fashion.\
-vi) Try and get remote machine access in ORI \
-vii) Share the GitHub repository\
+5) Make the code less dependent of the specific dataset used for. Try to make the same code run for for MNIST-numbers and MNIST-fashion.\
+6) Try and get remote machine access in ORI \
+7) Share the GitHub repository\
 
 \f0\b Next meeting: \
 
-\f2\b0 Friday 8th November}
+\f2\b0 Friday 8th November\
+\
+
+\f0\b 1)\
+a) 
+\f2\b0 \
+Yes, the classes occupy different regions in the latent space. The separation between classes is more evident in some latent-space parameter than others: sometimes there is a lot of overlap while other times they are very clearly separated in different regions. For example if we train the model with classes 0,2 and 3 (which look quite different) the encoder maps training pictures in a latent space where, by plotting the 4th and 5th parameter in a scatter plot, we can notice different classes. \
+
+\f3\i Could create a classifier in the latent space that determines the contours of these regions, when a test picture is tested we can tell which class it belongs to based on where it lies in the space.
+\f2\i0 \
+
+\f0\b b)
+\f2\b0 \
+Not necessarily, different parameters of the latent space might represent different features so classes might be close in certain parameters (if they both have the feature) but far in others (if they don\'92t have it). Tried training the VAE with 0,1 and 7, thinking that 7 and 1 were going to be close, but in reality the 7s were further apart than the 1s and 0s quite often. When trained on 2,5,7 it was a bit more noticeable that on average the classes of 2s and 7s were closer to each other compared to the 5s.\
+
+\f3\i Would be interesting to analyse or visualise what features the different parameters in the latent space represent. 
+\f2\i0 \
+Something weird noticed: when trained on the 1s, quite a few outliers emerged from that class. When plotting the latent space, all parameters are grouped close-is to each other with values in the range of [-500 to +500]. This time however (and only in certain parameter of the latent space) some images were encoded with some parameters of size 1e15 and up to 1e32. When trying to figure out why those particular z-values were so high, i noticed that it was due to their log-variance being positive and hence generating huge numbers. This only happened with pictures of 1s, if I get rid of the outliers everything looks normal like before. There were 371 outliers in the first 2000 pictures (of which about 6700 must have been 1s). Not sure why the variance would be positive in those cases when it\'92s always positive everywhere else.\
+Update: Tried training the VAE again and this did not happen anymore.\
+
+\f0\b c)
+\f2\b0 \
+Might not be able to classify different specific \'93ways\'94 of writing the same number because the numbers are written in a spectrum of different ways and therefore distributed everywhere in the latent space as opposed to in defined region. However we can notice how numbers written similarly have similar values in some latent space parameters. The mapping of numbers (with specific features) in the latent space parameter can give us information as to what that parameter is trying to \'93look for\'94. For example the 30th and 22nd fours (both written wide, think and without sharp edges) have low values in the 4th latent space parameters. This suggests that that parameter might respond well to those features. Similarly the 16th four is written in a \'93closed\'94 way (with the stick on the left tilted and forming a triangle with the vertical stick) and has low values in the 1st parameter.Unsurprisingly, the 47th and 166th fours (very low values in that parameter), also have that feature.\
+
+\f3\i If we can learn where certain uncommon features of a class lie in the latent space we could recognise them in the test data.\
+\
+
+\f0\i0\b 2)\
+a)
+\f2\b0 \
+When the VAE is only trained on certain classes, it will reconstruct test images with different loss results. The VAE was first trained with numbers 0s, 2, and 4s. The ELBO loss when reconstructing these classes was less than 100 and reconstruction was good (judging by the eye). The reconstruction of most of the other classes was quite bad and the images were distorted or looked like other numbers, their respective ELBO losses were around 200. However a few classes were better reconstructed. The 1s has a loss around 70 (better than many other trained classes). This is probably due to their simple shape, which the VAE has learnt to reconstruct (encoder needs to detect straight lines when trained on the 4s). However to the naked eye, the reconstruction seems worse than the one obtained for other classes (e.g. the number 2), even if the latter have higher ELBO losses. This might suggest that the ELBO loss might not be the best way to judge the reconstruction performance of the VAE. Maybe a mean square error between the image pixels would be better and worth trying.\
+A similar result was seen if the VAE is trained with 0,1,2,3,4. The ELBO losses of these classes were always lower than the ones for the other classes (class 9 was reconstructed better than the other untrained classes, only slightly worse than the trained classes). When images of 1s were provided into the training data, the 1s were reconstructed with much lower loss (only around 40).\
+
+\f0\b b)
+\f2\b0 \
+No. Even if a class is reconstructed well (without being trained with), there is not a very clear difference in the latent space position. The encoder maps pictures of 1s in a region similar/close to the one where the other values are located. In a few parameters of the latent vector it can be seen that the test images of 1s are grouped more closely together than other classes (or than they would in other parameters), but this is likely due to the fact that that parameter responds well to straight lines (as explained in 1)c)).\
+
+\f0\b c)
+\f2\b0 \
+No\
+\
+
+\f0\b 3)\
+a)\
+
+\f2\b0 H\
+\
+\
+}
