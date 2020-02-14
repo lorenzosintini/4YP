@@ -1,0 +1,30 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\froman\fcharset0 Times-Roman;\f1\froman\fcharset0 Times-Italic;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl340\sa240\partightenfactor0
+
+\f0\fs29\fsmilli14667 \cf2 \expnd0\expndtw0\kerning0
+NASA\'92s annual budget for the upcoming 2020 year is set at more than $21.5 billion. This is the highest budget is has ever had [1], showing that space exploration is a field of research still of great interest; and with the rise of new private spaceflight companies such as 
+\f1\i SpaceX 
+\f0\i0 or 
+\f1\i Blue Origin
+\f0\i0 , it is only going to increase. 
+\fs24 \
+
+\fs29\fsmilli14667 Robots play one of the central roles in space exploration. Sending robots to space has in fact a lot of benefits compared to sending humans. It is firstly a lot safer, with no human lives ever put in danger. It is also a lot simpler since no return mission has to be planned. The robot can stay in space until it eventually breaks down and it will not require food, sleep, shelter or any other resources. The robot can also perform tasks that might require multiple scientists to perform and can do so repeatedly for many years in a row. Finally, robots can more easily adapt and survive in hostile environments, where humans might not even be able to survive due to temperatures or radiations. 
+\fs24 \
+
+\fs29\fsmilli14667 Let\'92s consider the Curiosity Rover, possibly one of the most famous space exploration robot deployed in Mars in 2012 by NASA. The Curiosity has 17 cameras and many more instruments that it uses to analyse the planet\'92s surroundings [2]. Due to the distance between the planets communication to the rover is slow and can take up to 20 minutes, it is not driven or controlled in real time. At the beginning of each sol (a Mars solar day) a team of scientists sends instructions to the rover explaining the tasks it should perform for the day and uses the information received back to plan the next day\'92s actions [2]. 
+\fs24 \
+
+\fs29\fsmilli14667 The communication issues described above is the reason there in an incentive in using artificial intelligence (AI) on the rovers in space. Scientists might find something interesting from the data received and want the robot to further explore it, but by the time that decision is made and the information is sent back, the rover might be very far from the location of interest. This process therefore would be inefficient and time consuming. Using AI we can make the robot more autonomous and teach it to make some decisions on its own. One of the first steps would be to allow the robot to learn its environment and be able to recognise features in it. If something interesting is recognised, more pictures or samples are taken. The curiosity has 17 cameras from which many images can be obtained. These images can be used to train machine learning (ML) algorithms able to classify objects and detect what is around the robot. 
+\fs24 \
+
+\fs29\fsmilli14667 There is a main issues when using ML to teach the robot to classify objects in pictures: the amount of data available. Most ML classification techniques assume a roughly equal amount of data from each class is available. This is not always true and definitely not the case in the space exploration field.\
+Many of the things we are interested in will be rare and uncommon, which is why they are classes of interest. This means that a lot less training data is available for them compared to the common classes. We say we have an imbalanced dataset. Even worse, sometimes things will be found in space that have never been seen before. This would be of high scientific interest but with no previous training data on it, the robot will not know what it is and might not detect it. It will simply classify it as an object belonging to the class most similar to it which, if common, could be completely overlooked. Hence there needs to be machine learning techniques able to spot anomalies and detect novelties. 
+\fs24 \
+\
+}
